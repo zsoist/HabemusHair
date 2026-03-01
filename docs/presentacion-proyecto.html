@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HabemusHair — Hair Planning Copilot</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2b6cb0;
+            --accent: #ed8936;
+            --accent-dark: #c05621;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --text: #2d3748;
+            --text-light: #718096;
+            --success: #38a169;
+            --border: #e2e8f0;
+            --gradient-start: #1a365d;
+            --gradient-end: #2b6cb0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* SLIDE-LIKE SECTIONS */
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 3rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .slide-hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 60%, var(--accent) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            max-width: 100%;
+        }
+
+        .slide-hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -1px;
+        }
+
+        .slide-hero .subtitle {
+            font-size: 1.4rem;
+            opacity: 0.9;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .slide-hero .tagline {
+            font-size: 1rem;
+            background: rgba(255,255,255,0.15);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            max-width: 600px;
+        }
+
+        .slide h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--accent);
+            display: inline-block;
+        }
+
+        .slide h3 {
+            font-size: 1.2rem;
+            color: var(--primary-light);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        /* PROBLEM SECTION */
+        .problem-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .problem-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-top: 4px solid var(--accent);
+        }
+
+        .problem-card .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .problem-card .label {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+
+        .problem-card .desc {
+            margin-top: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        /* SOLUTION FLOW */
+        .flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin: 1.5rem 0;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.25rem;
+            padding: 1.25rem 0;
+            position: relative;
+        }
+
+        .flow-step:not(:last-child) {
+            border-bottom: 1px solid var(--border);
+        }
+
+        .flow-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .flow-content h4 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .flow-content p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* COMPARISON TABLE */
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .compare-table th {
+            background: var(--primary);
+            color: white;
+            padding: 0.875rem 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .compare-table td {
+            padding: 0.875rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .compare-table tr:nth-child(even) { background: var(--bg); }
+
+        .check { color: var(--success); font-weight: 700; font-size: 1.1rem; }
+        .cross { color: #e53e3e; font-weight: 700; font-size: 1.1rem; }
+
+        /* BENEFITS */
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.25rem;
+            margin: 1.5rem 0;
+        }
+
+        .benefit-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+
+        .benefit-card:hover { transform: translateY(-3px); }
+
+        .benefit-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .benefit-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .benefit-card p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* PARTNERSHIP */
+        .partnership {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .partner-col {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .partner-col h3 {
+            text-align: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .partner-col ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .partner-col li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .partner-col li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        /* TIMELINE */
+        .timeline {
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: "";
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 1.25rem;
+            padding: 1rem 0;
+            position: relative;
+        }
+
+        .timeline-dot {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+            color: white;
+            z-index: 1;
+        }
+
+        .timeline-dot.phase1 { background: var(--primary); }
+        .timeline-dot.phase2 { background: var(--primary-light); }
+        .timeline-dot.phase3 { background: var(--accent); }
+        .timeline-dot.phase4 { background: var(--success); }
+
+        .timeline-content h4 {
+            font-size: 1rem;
+            color: var(--primary);
+        }
+
+        .timeline-content p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* QUOTE */
+        .quote-box {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 1.5rem 0;
+            text-align: center;
+            font-size: 1.15rem;
+            font-style: italic;
+            line-height: 1.8;
+        }
+
+        /* DIVIDER */
+        .divider {
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--accent), var(--primary));
+            border-radius: 2px;
+            margin: 0;
+        }
+
+        /* CTA */
+        .cta {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .cta h2 {
+            border: none;
+            display: block;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin: 1rem 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 700px) {
+            .slide-hero h1 { font-size: 2rem; }
+            .problem-grid, .benefit-grid, .partnership { grid-template-columns: 1fr; }
+            .slide { padding: 2rem 1.25rem; min-height: auto; }
+        }
+
+        @media print {
+            .slide { min-height: auto; page-break-after: always; }
+            .slide-hero { min-height: auto; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- SLIDE 1: HERO -->
+<div class="slide-hero">
+    <h1>HabemusHair</h1>
+    <div class="subtitle">Hair Planning Copilot</div>
+    <div class="tagline">
+        Sistema de apoyo clinico para consulta de trasplante capilar.<br>
+        Medicion objetiva. Planificacion inteligente. Resultados defendibles.
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SLIDE 2: THE PROBLEM -->
+<div class="slide">
+    <h2>El problema</h2>
+    <p style="font-size: 1.05rem; margin-bottom: 1rem;">La consulta inicial de trasplante capilar depende casi completamente del ojo del cirujano. Eso genera tres problemas:</p>
+
+    <div class="problem-grid">
+        <div class="problem-card">
+            <div class="number">30-60</div>
+            <div class="label">minutos por consulta</div>
+            <div class="desc">El cirujano mide a ojo, calcula de memoria y explica con palabras lo que el paciente no puede visualizar.</div>
+        </div>
+        <div class="problem-card">
+            <div class="number">+/-30%</div>
+            <div class="label">variabilidad en estimaciones</div>
+            <div class="desc">Dos cirujanos expertos pueden dar estimaciones de grafts significativamente diferentes para el mismo paciente.</div>
+        </div>
+        <div class="problem-card">
+            <div class="number">0</div>
+            <div class="label">herramientas accesibles en Colombia</div>
+            <div class="desc">Las plataformas existentes (TrichoLAB, HairMetrix) cuestan $500-2,000 USD/mes y estan disenadas para USA/Europa.</div>
+        </div>
+        <div class="problem-card">
+            <div class="number">73%</div>
+            <div class="label">pacientes quieren ver "el despues"</div>
+            <div class="desc">El paciente no puede imaginarse el resultado. Eso genera indecision, desconfianza y consultas repetidas.</div>
+        </div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SLIDE 3: THE SOLUTION -->
+<div class="slide">
+    <h2>La solucion</h2>
+    <p style="font-size: 1.05rem; margin-bottom: 1rem;">Un copiloto digital que asiste al cirujano en cada paso de la consulta:</p>
+
+    <div class="flow">
+        <div class="flow-step">
+            <div class="flow-icon">1</div>
+            <div class="flow-content">
+                <h4>Captura estandarizada</h4>
+                <p>El sistema guia al medico (o asistente) para tomar fotos en angulos correctos con iluminacion consistente. Valida calidad automaticamente. Resultado: fotos comparables entre sesiones y entre pacientes.</p>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="flow-icon">2</div>
+            <div class="flow-content">
+                <h4>Medicion objetiva</h4>
+                <p>Inteligencia artificial segmenta el cuero cabelludo en zonas (frontal, corona, donante) y mide densidad capilar, distribucion de foliculos y grado de miniaturizacion. Numeros reales, no estimaciones subjetivas.</p>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="flow-icon">3</div>
+            <div class="flow-content">
+                <h4>Estimacion inteligente de grafts</h4>
+                <p>Motor de calculo con reglas clinicas que considera area, densidad objetivo, tipo de pelo, zona donante disponible y tecnica quirurgica. Devuelve un RANGO (no un numero magico) con explicacion por zona.</p>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="flow-icon">4</div>
+            <div class="flow-content">
+                <h4>Planificacion visual</h4>
+                <p>Canvas interactivo donde el medico dibuja la linea del pelo, define zonas receptoras y ajusta densidades. El sistema calcula en tiempo real cuantos grafts implica cada decision.</p>
+            </div>
+        </div>
+        <div class="flow-step">
+            <div class="flow-icon">5</div>
+            <div class="flow-content">
+                <h4>Reporte clinico profesional</h4>
+                <p>PDF generado automaticamente con fotos del paciente, mediciones, plan propuesto, rango de grafts, costo estimado y disclaimers legales. El paciente se lleva algo tangible.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SLIDE 4: BEFORE/AFTER -->
+<div class="slide">
+    <h2>Consulta de hoy vs. con HabemusHair</h2>
+
+    <table class="compare-table">
+        <thead>
+            <tr>
+                <th style="width: 35%;">Aspecto</th>
+                <th style="width: 32%;">Hoy (sin herramienta)</th>
+                <th style="width: 33%;">Con HabemusHair</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Estimacion de grafts</strong></td>
+                <td>A ojo, por experiencia</td>
+                <td>Calculo con formula clinica + AI, por zona</td>
+            </tr>
+            <tr>
+                <td><strong>Tiempo de consulta</strong></td>
+                <td>30-60 minutos</td>
+                <td>15-25 minutos</td>
+            </tr>
+            <tr>
+                <td><strong>Lo que se lleva el paciente</strong></td>
+                <td>Explicacion verbal</td>
+                <td>Reporte PDF profesional con datos y plan</td>
+            </tr>
+            <tr>
+                <td><strong>Medicion de densidad</strong></td>
+                <td>Visual / lupa manual</td>
+                <td>Automatica por cm2 con IA</td>
+            </tr>
+            <tr>
+                <td><strong>Consistencia</strong></td>
+                <td>Varia segun el dia y el medico</td>
+                <td>Mismo protocolo, mismos calculos siempre</td>
+            </tr>
+            <tr>
+                <td><strong>Seguimiento</strong></td>
+                <td>Fotos sueltas sin comparacion sistematica</td>
+                <td>Comparacion automatica pre/post con metricas</td>
+            </tr>
+            <tr>
+                <td><strong>Costo de herramientas</strong></td>
+                <td>$0 (no usa) o $500+ USD/mes (importadas)</td>
+                <td>Gratis como socio fundador</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="divider"></div>
+
+<!-- SLIDE 5: BENEFITS -->
+<div class="slide">
+    <h2>Beneficios concretos para su practica</h2>
+
+    <div class="benefit-grid">
+        <div class="benefit-card">
+            <div class="benefit-icon">$</div>
+            <h4>Mas pacientes/dia</h4>
+            <p>Consultas mas rapidas = mas pacientes atendidos con la misma agenda.</p>
+        </div>
+        <div class="benefit-card">
+            <div class="benefit-icon">!</div>
+            <h4>Diferenciacion</h4>
+            <p>Seria la unica clinica en Colombia con esta tecnologia. Poderoso para marketing.</p>
+        </div>
+        <div class="benefit-card">
+            <div class="benefit-icon">%</div>
+            <h4>Conversion</h4>
+            <p>Pacientes que ven datos objetivos y un reporte profesional toman la decision mas rapido.</p>
+        </div>
+        <div class="benefit-card">
+            <div class="benefit-icon">+</div>
+            <h4>Evidencia</h4>
+            <p>Base de datos organizada de todos sus casos. Util para publicaciones, conferencias y marketing.</p>
+        </div>
+        <div class="benefit-card">
+            <div class="benefit-icon">*</div>
+            <h4>Precision</h4>
+            <p>Reducir variabilidad en estimaciones. Mismo paciente = mismo resultado, sin importar el dia.</p>
+        </div>
+        <div class="benefit-card">
+            <div class="benefit-icon">^</div>
+            <h4>Proteccion legal</h4>
+            <p>Reporte documentado con disclaimers. Si el paciente reclama, hay evidencia de lo que se planeo.</p>
+        </div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SLIDE 6: PARTNERSHIP -->
+<div class="slide">
+    <h2>Propuesta de alianza</h2>
+
+    <div class="quote-box">
+        "No le estamos vendiendo software. Le estamos proponiendo construir juntos la primera herramienta de planificacion capilar hecha en Colombia, con datos colombianos, para cirujanos colombianos."
+    </div>
+
+    <div class="partnership">
+        <div class="partner-col">
+            <h3 style="color: var(--primary);">Lo que usted aporta</h3>
+            <ul>
+                <li>Su experiencia clinica y criterio profesional</li>
+                <li>Fotos historicas de pacientes (anonimizadas)</li>
+                <li>Validacion de las formulas de estimacion</li>
+                <li>5-10 consultas piloto con el sistema</li>
+                <li>Feedback sobre que funciona y que no</li>
+            </ul>
+        </div>
+        <div class="partner-col">
+            <h3 style="color: var(--accent-dark);">Lo que usted recibe</h3>
+            <ul>
+                <li>Acceso gratuito a la plataforma completa</li>
+                <li>Co-autoria en cualquier publicacion</li>
+                <li>Voz y voto en el diseno del producto</li>
+                <li>Herramienta unica en el mercado colombiano</li>
+                <li>Reportes PDF profesionales para sus pacientes</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SLIDE 7: TIMELINE -->
+<div class="slide">
+    <h2>Cronograma</h2>
+    <p style="margin-bottom: 1rem;">Desarrollo incremental. Usted ve avances cada 2-3 semanas:</p>
+
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-dot phase1">S1-2</div>
+            <div class="timeline-content">
+                <h4>Semanas 1-2: Fundamentos</h4>
+                <p>Organizamos las fotos, definimos el protocolo de captura y montamos la infraestructura tecnica.</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot phase2">S3-4</div>
+            <div class="timeline-content">
+                <h4>Semanas 3-4: Pipeline de datos</h4>
+                <p>Sistema de ingesta de fotos con validacion de calidad. Ya puede subir fotos y el sistema las organiza.</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot phase2">S5-8</div>
+            <div class="timeline-content">
+                <h4>Semanas 5-8: Medicion automatica</h4>
+                <p>IA que segmenta zonas del cuero cabelludo y mide densidad. Primer output visible: mapa de zonas coloreado.</p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot phase3">S9-12</div>
+            <div class="timeline-content">
+                <h4>Semanas 9-12: Motor de estimacion + Reporte</h4>
+                <p>Calculo automatico de rango de grafts por zona + generacion de PDF profesional. <strong>Esto ya es el V1 usable en consulta.</strong></p>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="timeline-dot phase4">V2</div>
+            <div class="timeline-content">
+                <h4>Fase 2 (despues): Canvas + Simulacion</h4>
+                <p>Herramienta para dibujar linea del pelo + simulacion visual de como quedaria. Solo despues de validar V1.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SLIDE 8: DATA PRIVACY -->
+<div class="slide">
+    <h2>Privacidad y seguridad de datos</h2>
+    <p style="margin-bottom: 1.5rem;">Cumplimos con la regulacion colombiana desde el dia 1:</p>
+
+    <div class="problem-grid">
+        <div class="problem-card" style="border-top-color: var(--success);">
+            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Ley 1581 de 2012</h4>
+            <p style="font-size: 0.9rem;">Cumplimiento total con la ley de proteccion de datos personales. Consentimiento explicito para cada paciente. Datos anonimizados para entrenamiento de modelos.</p>
+        </div>
+        <div class="problem-card" style="border-top-color: var(--success);">
+            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Datos en Colombia</h4>
+            <p style="font-size: 0.9rem;">Los datos de pacientes se almacenan en servidores ubicados en Colombia o paises aprobados por la SIC. Nunca en servidores no autorizados.</p>
+        </div>
+        <div class="problem-card" style="border-top-color: var(--success);">
+            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Anonimizacion</h4>
+            <p style="font-size: 0.9rem;">Las fotos usadas para entrenar la IA son completamente anonimizadas: sin nombres, sin datos de contacto, rostros recortados cuando es posible.</p>
+        </div>
+        <div class="problem-card" style="border-top-color: var(--success);">
+            <h4 style="color: var(--primary); margin-bottom: 0.5rem;">No es diagnostico</h4>
+            <p style="font-size: 0.9rem;">HabemusHair es una herramienta de APOYO a la consulta. El medico siempre tiene la ultima palabra. No hacemos claims diagnosticos autonomos.</p>
+        </div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SLIDE 9: CTA -->
+<div class="slide">
+    <div class="cta">
+        <h2>Proximos pasos</h2>
+        <p>Si le interesa participar como socio fundador, lo unico que necesitamos para empezar es:</p>
+
+        <div style="text-align: left; max-width: 500px; margin: 1.5rem auto;">
+            <div style="padding: 0.75rem 0; border-bottom: 1px solid var(--border); font-size: 1rem;">
+                <strong style="color: var(--accent);">1.</strong> 3-5 fotos de ejemplo para validar el pipeline tecnico
+            </div>
+            <div style="padding: 0.75rem 0; border-bottom: 1px solid var(--border); font-size: 1rem;">
+                <strong style="color: var(--accent);">2.</strong> Una reunion de 30 min para entender su flujo de consulta
+            </div>
+            <div style="padding: 0.75rem 0; font-size: 1rem;">
+                <strong style="color: var(--accent);">3.</strong> Disposicion para probar el V1 en 5-10 consultas reales
+            </div>
+        </div>
+
+        <p style="margin-top: 1.5rem; font-size: 0.95rem; color: var(--text-light);">
+            Sin compromiso financiero. Sin contratos largos. Solo colaboracion tecnica.
+        </p>
+    </div>
+</div>
+
+<div class="footer">
+    <p><strong>HabemusHair</strong> — Hair Planning Copilot</p>
+    <p>Documento confidencial | Marzo 2026</p>
+</div>
+
+</body>
+</html>

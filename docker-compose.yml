@@ -1,0 +1,133 @@
+# ============================================================
+# DOCKER COMPOSE — HabemusHair
+# ============================================================
+#
+# QUE ES DOCKER COMPOSE:
+# Es una herramienta que levanta multiples "contenedores" (mini-computadores
+# virtuales) con un solo comando. Cada contenedor corre un servicio diferente.
+#
+# PARA PRINCIPIANTES:
+# Imagina que cada servicio es un electrodomestico en tu cocina:
+# - PostgreSQL = la nevera (almacena datos)
+# - Redis = el microondas (procesa cosas rapido, temporalmente)
+# - MinIO = el closet (almacena archivos/fotos)
+# - Backend = el chef (procesa peticiones)
+# - Frontend = el mesero (muestra la comida al cliente)
+#
+# COMO USARLO:
+#   docker compose up -d        # Levanta todo en segundo plano
+#   docker compose down         # Apaga todo
+#   docker compose logs -f      # Ver los logs en tiempo real
+#   docker compose ps           # Ver que esta corriendo
+#
+# PRIMERA VEZ:
+#   docker compose up -d db redis minio   # Primero solo infraestructura
+#   # Espera 10 segundos, luego:
+#   docker compose up -d                  # Levanta todo
+# ============================================================
+
+services:
+  # --- BASE DE DATOS ---
+  # PostgreSQL almacena todos los datos estructurados:
+  # pacientes, sesiones, mediciones, planificaciones, etc.
+  db:
+    image: postgres:16-alpine
+    container_name: habemus-db
+    environment:
+      POSTGRES_DB: habemus_hair
+      POSTGRES_USER: habemus
+      POSTGRES_PASSWORD: habemus_dev
+    ports:
+      - "5432:5432"     # Puerto para conectarse desde tu computador
+    volumes:
+      - postgres_data:/var/lib/postgresql/data   # Datos persistentes
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U habemus -d habemus_hair"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # --- REDIS ---
+  # Redis es una base de datos ultra rapida en memoria.
+  # La usamos como "cola de tareas": cuando el backend necesita
+  # hacer algo lento (como correr un modelo de ML), lo pone en
+  # la cola y Redis se lo pasa a un worker.
+  redis:
+    image: redis:7-alpine
+    container_name: habemus-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # --- MINIO (almacenamiento de fotos) ---
+  # MinIO es un servidor de almacenamiento compatible con AWS S3.
+  # Aqui guardamos todas las fotos de pacientes, mascaras de
+  # segmentacion, reportes PDF, etc.
+  #
+  # Para ver las fotos almacenadas, abre: http://localhost:9001
+  # Usuario: minioadmin / Password: minioadmin
+  minio:
+    image: minio/minio:latest
+    container_name: habemus-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    ports:
+      - "9000:9000"     # API
+      - "9001:9001"     # Consola web (interfaz grafica)
+    volumes:
+      - minio_data:/data
+
+  # --- BACKEND (FastAPI) ---
+  # El "cerebro" del sistema. Recibe peticiones del frontend,
+  # procesa datos, habla con la base de datos, etc.
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: habemus-backend
+    environment:
+      - DATABASE_URL=postgresql://habemus:habemus_dev@db:5432/habemus_hair
+      - REDIS_URL=redis://redis:6379/0
+      - STORAGE_ENDPOINT=minio:9000
+      - STORAGE_ACCESS_KEY=minioadmin
+      - STORAGE_SECRET_KEY=minioadmin
+    ports:
+      - "8000:8000"     # API: http://localhost:8000/docs
+    volumes:
+      - ./backend:/app  # Monta el codigo local (cambios en vivo)
+      - ./models:/app/models
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # --- FRONTEND (Next.js) ---
+  # La interfaz que ve el medico en el navegador.
+  # TODO: Descomentar cuando el frontend este listo
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: habemus-frontend
+  #   ports:
+  #     - "3000:3000"
+  #   depends_on:
+  #     - backend
+  #   environment:
+  #     - NEXT_PUBLIC_API_URL=http://localhost:8000
+
+# --- VOLUMENES PERSISTENTES ---
+# Los volumenes guardan datos entre reinicios de Docker.
+# Si haces "docker compose down", los datos se mantienen.
+# Si haces "docker compose down -v", los datos se BORRAN.
+volumes:
+  postgres_data:
+  minio_data:
