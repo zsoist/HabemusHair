@@ -205,22 +205,60 @@ Mi principal critica era: "sin datos clinicos reales, el roadmap es fantasia". C
 
 #### Colombia como mercado: mucho mejor de lo que parece
 
+**Datos duros del mercado (investigacion marzo 2026):**
+
+| Metrica | Dato |
+|---------|------|
+| Mercado global trasplante capilar | ~$18.4B (2023), proyectado $110B para 2032 (CAGR ~22%) |
+| Mercado Sudamerica especificamente | $490M (2024), proyectado $1,670M para 2035 (CAGR 10.4%) |
+| Clinicas verificadas en Colombia | 22 (WhatClinic) |
+| Ciudades principales | Bogota, Medellin, Cali |
+| Precio FUE en Colombia | $1,500-$3,500 USD |
+| Precio DHI en Colombia | $2,000-$4,000 USD |
+| Precio promedio procedimiento | $2,000-$4,500 USD (50-70% menos que USA) |
+| Precio USA (referencia) | $8,000-$15,000+ USD |
+| Precio Turquia (benchmark) | $1,000-$4,500 USD |
+| Ahorro total para paciente US en Colombia | >60% incluyendo viaje |
+
+**Clinicas clave identificadas:** Colombia Care (Medellin), HERO Hair Institute (20+ anos), Clinica Essence (Cali/Bogota), Bogota Hairlines.
+
 **Lo que juega a favor:**
 
 | Factor | Detalle |
 |--------|---------|
 | **Mercado desatendido** | Las herramientas tipo TrichoLAB/HairMetrix estan disenadas para mercados de US/EU con precios de $500-2000/mes. En Colombia no hay alternativa local accesible. |
-| **Colombia es hub de turismo medico** | Bogota, Medellin y Cali reciben pacientes de todo LATAM y del Caribe para procedimientos esteticos. El trasplante capilar es uno de los mas buscados. |
-| **Precio del trasplante en Colombia** | Rango tipico: $2,000-5,000 USD por sesion (vs. $8,000-15,000 en USA, $1,500-3,000 en Turquia). Competitivo, con crecimiento fuerte. |
-| **Regulacion** | INVIMA regula dispositivos medicos pero el software de apoyo a consulta (no diagnostico autonomo) tiene un camino regulatorio mas flexible que en FDA/CE. Puedes lanzar como herramienta de apoyo sin clasificacion de dispositivo medico inicialmente. |
-| **Adopcion tech en clinicas colombianas** | Alta. Las clinicas esteticas colombianas ya usan plataformas digitales para marketing, agendamiento y seguimiento. Adoptar una herramienta de consulta no es un salto cultural. |
-| **Expansion natural** | Colombia -> Mexico -> LATAM hispanohablante. El producto en espanol cubre un mercado de 500M+ personas sin competencia real. |
+| **Colombia es hub de turismo medico** | Bogota, Medellin y Cali reciben pacientes de todo LATAM y del Caribe para procedimientos esteticos. TikTok #hairtransplant alcanzo 4.7B views en abril 2024 — la normalizacion social impulsa la demanda. |
+| **Precio competitivo** | $2,000-$4,500 USD por procedimiento. Mas barato que USA/Brasil, comparable a Mexico/Peru, solo superado por Turquia. Margen suficiente para que las clinicas paguen herramientas tech. |
+| **Regulacion favorable** | INVIMA (Decreto 4725/2005) regula dispositivos medicos, pero software de apoyo a consulta que NO hace diagnostico autonomo tiene camino regulatorio flexible. No necesita clasificacion de dispositivo medico para lanzar. Ver seccion regulatoria abajo. |
+| **Adopcion tech alta** | ~58% de medicos colombianos ya usan plataformas de telemedicina. Las clinicas esteticas usan herramientas digitales para marketing, agendamiento y seguimiento. No es salto cultural. |
+| **Expansion natural** | Colombia -> Mexico ($2,500-$6,000 USD, mercado mas grande de LATAM) -> resto hispanohablante. Producto en espanol cubre 500M+ personas sin competencia real. |
+
+**Regulacion — lo que encontre (importante):**
+
+- **INVIMA** clasifica dispositivos medicos en 4 niveles (I, IIa, IIb, III). Software recibe la misma clasificacion que el equipo con el que trabaja (Art. 6, Decreto 4725/2005).
+- **No existe pathway especifico para SaMD (Software as Medical Device)** como en FDA o EU MDR. Esto es ambiguedad, pero juega a tu favor: un software de apoyo a consulta sin claims diagnosticos no necesita registro como dispositivo medico.
+- **Homologacion:** INVIMA acepta aprobaciones previas de FDA, CE, Australia, Canada, Japon. Si algun dia necesitas clasificacion, una aprobacion previa en otro pais facilita el proceso.
+- **Ley 1581 de 2012 (Proteccion de datos):** Aplica a cualquier plataforma que maneje datos de salud. Punto critico: **la transferencia internacional de datos personales esta prohibida** salvo que el pais receptor tenga nivel adecuado de proteccion (determinado por la SIC). Esto significa: **hosting en Colombia o en paises aprobados.**
+- **Telemedicina (Resolucion 2654/2019):** Si el producto evoluciona hacia consulta remota, aplica. Para V1 (herramienta de consulta presencial) no es necesario.
 
 **Lo que hay que cuidar:**
 
-- **Pricing para mercado colombiano.** $500/mes es caro para una clinica mediana en Bogota. Piensa en $50-150 USD/mes como punto de entrada. El volumen compensa.
-- **Datos de pacientes colombianos.** Ley 1581 de proteccion de datos personales y Ley 23 de etica medica. Necesitas consentimiento informado explicito para usar fotos clinicas en entrenamiento de modelos. El medico partner debe tener esto claro desde el dia 0.
+- **Pricing para mercado colombiano.** $500/mes es caro para una clinica mediana en Bogota. Piensa en $50-150 USD/mes como punto de entrada. El volumen compensa. Con 22+ clinicas solo en Colombia y crecimiento del mercado, hay suficiente base.
+- **Datos de pacientes colombianos.** Ley 1581 de proteccion de datos personales y Ley 23 de etica medica. Necesitas consentimiento informado explicito para usar fotos clinicas en entrenamiento de modelos. El medico partner debe tener esto claro desde el dia 0. **Hosting de datos en Colombia o pais aprobado por SIC — no subir a AWS US sin verificar.**
 - **Tipo de pelo.** El pelo latinoamericano tiene caracteristicas propias (generalmente grueso, oscuro, lacio a ondulado). Los modelos entrenados solo con pelo caucasico/asiatico pueden tener sesgo. **Ventaja: si entrenas con datos colombianos, tu modelo sera mejor para LATAM que cualquier competidor global.**
+
+**Reddit como fuente de datos — datos verificados:**
+
+| Subreddit | Miembros aprox. | Contenido |
+|-----------|-----------------|-----------|
+| r/tressless | ~485,000 | Comunidad mas amplia: tratamientos, trasplantes, fotos pre/post |
+| r/HairTransplants | ~129,000 | Dedicado a resultados, reviews de clinicas, tecnicas |
+| r/HairTransplant | Activo | Fotos y discusion similar |
+
+- Crecimiento explosivo: r/tressless paso de ~90k (2021) a ~485k (2025) — **5x en 4 anos**.
+- Los posts tipicamente incluyen: fotos pre/post, numero de grafts, tecnica (FUE/FUT/DHI), clinica, costo, timeline de meses.
+- **Calidad variable** — desde fotos profesionales con angulos consistentes hasta selfies con flash. Util para segmentacion anatomica y clasificacion Norwood, **no para medicion de densidad clinica**.
+- **Nota:** r/HairTransplants fue puesto en cuarentena a inicios de 2026. Verificar accesibilidad antes de scrapear.
 
 ### Puntuacion revisada
 
