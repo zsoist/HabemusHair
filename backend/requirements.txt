@@ -1,0 +1,47 @@
+# ============================================================
+# DEPENDENCIAS DEL BACKEND — HabemusHair
+# ============================================================
+# Para instalar todo: pip install -r requirements.txt
+#
+# PARA PRINCIPIANTES:
+# Cada linea es una "libreria" (codigo que alguien mas escribio
+# y que nosotros usamos). El numero despues de == es la version.
+# ============================================================
+
+# --- Framework web ---
+fastapi==0.115.6          # El framework principal del backend (crea la API)
+uvicorn[standard]==0.34.0 # El servidor que ejecuta FastAPI
+python-multipart==0.0.18  # Para subir archivos (fotos)
+
+# --- Base de datos ---
+sqlalchemy==2.0.36        # ORM: permite hablar con PostgreSQL usando Python en vez de SQL
+psycopg2-binary==2.9.10   # Driver de PostgreSQL (conecta Python con la base de datos)
+alembic==1.14.1           # Migraciones: cuando cambias la estructura de la DB, alembic la actualiza
+
+# --- Validacion y configuracion ---
+pydantic==2.10.4          # Validacion de datos (asegura que los datos tengan el formato correcto)
+pydantic-settings==2.7.1  # Lee configuracion de archivos .env
+
+# --- Almacenamiento ---
+minio==7.2.12             # Cliente para MinIO/S3 (donde se guardan las fotos)
+
+# --- Procesamiento de imagenes ---
+opencv-python-headless==4.10.0.84  # OpenCV: procesamiento de imagenes (blur, resize, etc.)
+Pillow==11.1.0            # Otra libreria de imagenes (mas simple que OpenCV)
+
+# --- Machine Learning (instalar cuando se necesite) ---
+# torch>=2.0               # PyTorch: framework de deep learning
+# torchvision>=0.15        # Modelos preentrenados de vision
+# ultralytics>=8.0         # YOLO: deteccion de objetos
+
+# --- Tareas asincronas ---
+celery==5.4.0             # Cola de tareas (para procesos largos como inferencia)
+redis==5.2.1              # Cliente Redis (backend para Celery)
+
+# --- Reportes ---
+weasyprint==63.1          # Genera PDFs desde HTML (para reportes clinicos)
+
+# --- Utilidades ---
+python-jose[cryptography]==3.3.0  # JWT tokens (autenticacion)
+passlib[bcrypt]==1.7.4    # Hashing de passwords
+httpx==0.28.1             # Cliente HTTP asincrono

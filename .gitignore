@@ -1,0 +1,71 @@
+# ============================================================
+# .gitignore — Archivos que Git debe ignorar
+# ============================================================
+# Estos archivos NO se suben al repositorio porque son:
+# - Generados automaticamente (node_modules, __pycache__)
+# - Secretos/credenciales (.env)
+# - Archivos grandes (modelos de ML, datasets)
+# - Temporales (logs, cache)
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+venv/
+env/
+
+# --- Node.js ---
+node_modules/
+.next/
+out/
+
+# --- Entorno ---
+.env
+.env.local
+.env.production
+.env.*.local
+
+# --- IDE ---
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Docker ---
+docker-compose.override.yml
+
+# --- Modelos de ML (son muy grandes para Git) ---
+models/weights/*.pt
+models/weights/*.pth
+models/weights/*.onnx
+models/weights/*.pkl
+*.h5
+
+# --- Datos (no subir datos de pacientes a Git NUNCA) ---
+data/raw/*
+data/processed/*
+data/annotations/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+!data/annotations/.gitkeep
+
+# --- Logs ---
+*.log
+logs/
+
+# --- Reportes generados ---
+reports/*.pdf
+
+# --- Celery ---
+celerybeat-schedule
+celerybeat.pid

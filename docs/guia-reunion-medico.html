@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia de Reunion con Medico Partner — HabemusHair</title>
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2b6cb0;
+            --accent: #ed8936;
+            --accent-light: #fbd38d;
+            --bg: #f7fafc;
+            --card-bg: #ffffff;
+            --text: #2d3748;
+            --text-light: #718096;
+            --success: #38a169;
+            --warning: #d69e2e;
+            --danger: #e53e3e;
+            --border: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            padding: 0;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .intro-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .intro-card h2 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .intro-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-number {
+            background: var(--primary);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            color: var(--primary);
+            font-size: 1.15rem;
+        }
+
+        .question-group {
+            margin: 1rem 0;
+        }
+
+        .question-group h3 {
+            color: var(--primary-light);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .question {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 0.875rem 1rem;
+            margin: 0.5rem 0;
+            border-left: 3px solid var(--primary-light);
+            font-size: 0.95rem;
+        }
+
+        .question strong {
+            color: var(--primary);
+        }
+
+        .why-box {
+            background: #fffbeb;
+            border: 1px solid var(--accent-light);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0 1rem 0;
+            font-size: 0.85rem;
+            color: #744210;
+        }
+
+        .why-box::before {
+            content: "Por que preguntar esto: ";
+            font-weight: 700;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 0.5rem 0;
+            padding-left: 2rem;
+            position: relative;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.95rem;
+        }
+
+        .checklist li:last-child {
+            border-bottom: none;
+        }
+
+        .checklist li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.65rem;
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--primary-light);
+            border-radius: 3px;
+            background: white;
+        }
+
+        .priority-high { border-left-color: var(--danger); }
+        .priority-medium { border-left-color: var(--warning); }
+        .priority-low { border-left-color: var(--success); }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .tag-critical { background: #fed7d7; color: var(--danger); }
+        .tag-important { background: #fefcbf; color: #975a16; }
+        .tag-nice { background: #c6f6d5; color: #276749; }
+
+        .offer-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        .offer-table th {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .offer-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .offer-table tr:nth-child(even) {
+            background: var(--bg);
+        }
+
+        .script-box {
+            background: #ebf8ff;
+            border: 1px solid #bee3f8;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            font-style: italic;
+            color: #2a4365;
+        }
+
+        .script-box::before {
+            content: "Puedes decir algo como:";
+            display: block;
+            font-weight: 700;
+            font-style: normal;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .warning-box {
+            background: #fff5f5;
+            border: 1px solid #feb2b2;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            color: #742a2a;
+        }
+
+        .warning-box::before {
+            content: "IMPORTANTE: ";
+            font-weight: 700;
+        }
+
+        .notes-area {
+            width: 100%;
+            min-height: 80px;
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: vertical;
+            background: var(--bg);
+            margin-top: 0.5rem;
+        }
+
+        .notes-area:focus {
+            outline: none;
+            border-color: var(--primary-light);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        .print-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            margin: 1.5rem auto;
+            padding: 0.875rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .print-btn:hover { background: var(--primary-light); }
+
+        @media print {
+            .print-btn { display: none; }
+            .hero { padding: 1.5rem; }
+            .section { break-inside: avoid; }
+            .notes-area { border: 1px solid #ccc; }
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.5rem; }
+            .container { padding: 1rem; }
+            .section { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>Guia de Reunion con Medico Partner</h1>
+    <p>HabemusHair — Hair Planning Copilot</p>
+    <p style="font-size: 0.85rem; margin-top: 0.5rem; opacity: 0.7;">Documento interno de preparacion</p>
+</div>
+
+<div class="container">
+
+    <div class="intro-card">
+        <h2>Para que es esta guia</h2>
+        <p>Este documento te prepara para la reunion mas importante del proyecto: la primera conversacion seria con el medico. El objetivo NO es venderle nada. El objetivo es entender exactamente que tiene (fotos, datos, experiencia) y que necesita (herramientas, eficiencia, diferenciacion). De ahi sale el producto real.</p>
+    </div>
+
+    <!-- SECTION 1: OPENING -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">1</div>
+            <h2>Abrir la conversacion (5 min)</h2>
+        </div>
+
+        <div class="script-box">
+            "Doctor, estoy desarrollando una herramienta de software que ayuda a los cirujanos capilares durante la consulta inicial. No reemplaza al medico — lo que hace es automatizar la parte de medicion y calculo para que usted pueda enfocarse en el paciente. Antes de construir nada, necesito entender su practica real. Me permite hacerle unas preguntas?"
+        </div>
+
+        <div class="question-group">
+            <h3>Preguntas de contexto</h3>
+            <div class="question">
+                <strong>Cuantas consultas de trasplante capilar hace al mes?</strong>
+            </div>
+            <div class="why-box">Necesitas saber el volumen. Si hace 5/mes, es suficiente para piloto. Si hace 50/mes, la propuesta de valor es enorme (ahorro de tiempo x 50).</div>
+
+            <div class="question">
+                <strong>Cuanto tiempo le toma una consulta inicial completa?</strong> (desde que el paciente se sienta hasta que le da un plan)
+            </div>
+            <div class="why-box">Este es el "dolor" que vas a resolver. Si toma 45 min y puedes bajarlo a 20, eso es dinero real.</div>
+
+            <div class="question">
+                <strong>Que tecnicas usa mas? FUE, FUT, DHI, Sapphire?</strong>
+            </div>
+            <div class="why-box">El motor de estimacion de grafts necesita saber la tecnica porque cada una tiene tiempos y limites diferentes (DHI: 1,500-2,500 grafts/sesion vs FUE Sapphire: 3,000-4,000+).</div>
+
+            <div class="question">
+                <strong>Que herramientas usa hoy para planificar? (a ojo, software, lupas, dermatoscopio?)</strong>
+            </div>
+            <div class="why-box">Si no usa nada digital, tu herramienta es revolucionaria para el. Si ya usa algo, necesitas ser mejor que eso.</div>
+        </div>
+
+        <label><strong>Tus notas:</strong></label>
+        <textarea class="notes-area" placeholder="Escribe aqui lo que responda..."></textarea>
+    </div>
+
+    <!-- SECTION 2: THE PHOTOS -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">2</div>
+            <h2>El archivo fotografico <span class="tag tag-critical">Critico</span></h2>
+        </div>
+
+        <div class="warning-box">
+            Esta es la seccion MAS importante de toda la reunion. Sin fotos, no hay producto. Escucha con mucha atencion y toma notas detalladas.
+        </div>
+
+        <div class="question-group">
+            <h3>Cantidad y formato</h3>
+            <div class="question priority-high">
+                <strong>Aproximadamente cuantas fotos tiene archivadas de pacientes de trasplante?</strong>
+                <span class="tag tag-critical">Critico</span>
+            </div>
+            <div class="why-box">Necesitamos minimo 200 para empezar a entrenar modelos. 500+ es ideal. Menos de 100 complica mucho las cosas (pero no las imposibilita, podemos complementar con Reddit).</div>
+
+            <div class="question priority-high">
+                <strong>En que formato estan? (JPEG, RAW, en el celular, en una carpeta del computador, en un sistema clinico?)</strong>
+            </div>
+            <div class="why-box">Si estan organizadas en carpetas por paciente = perfecto. Si estan todas revueltas en un telefono = necesitaremos tiempo para organizar.</div>
+
+            <div class="question priority-high">
+                <strong>Tiene fotos ANTES y DESPUES del mismo paciente?</strong>
+                <span class="tag tag-critical">Critico</span>
+            </div>
+            <div class="why-box">Los pares pre/post son lo mas valioso que existe. Con ellos podemos cerrar el loop de aprendizaje: "se hicieron X grafts, y asi quedo". Sin esto, el modelo solo puede estimar, nunca aprender de resultados reales.</div>
+        </div>
+
+        <div class="question-group">
+            <h3>Tipo de fotos</h3>
+            <div class="question">
+                <strong>Que angulos toma normalmente? (frontal, laterales, cenital/arriba, occipital/atras?)</strong>
+            </div>
+
+            <div class="question priority-high">
+                <strong>Tiene tricoscopias o dermatoscopias? (fotos con microscopio/lupa de aumento que muestran los foliculos individuales)</strong>
+                <span class="tag tag-important">Importante</span>
+            </div>
+            <div class="why-box">Las tricoscopias permiten medir densidad real por cm2 y ver foliculos individuales. Las fotos macro (normales) solo sirven para segmentacion general. El producto completo necesita ambas.</div>
+
+            <div class="question">
+                <strong>Usa algun dermatoscopio o microscopio conectado al computador?</strong> (Si si: que marca/modelo?)
+            </div>
+            <div class="why-box">Necesitamos saber si el input va a ser un dermatoscopio USB (Dino-Lite, etc.) o fotos de celular con lupa. Eso define el pipeline de captura.</div>
+
+            <div class="question">
+                <strong>Las fotos tienen algun marcador de escala? (una regla, una moneda, algo que permita saber el tamano real)</strong>
+            </div>
+            <div class="why-box">Sin marcador de escala, no podemos convertir pixeles a centimetros. Este es un detalle tecnico pero fundamental. Si no lo tiene, lo incorporamos en el protocolo de captura futuro.</div>
+        </div>
+
+        <div class="question-group">
+            <h3>Datos clinicos asociados</h3>
+            <div class="question priority-high">
+                <strong>Tiene registrado cuantos grafts implanto en cada paciente?</strong>
+                <span class="tag tag-critical">Critico</span>
+            </div>
+            <div class="why-box">Este dato es el "ground truth" para entrenar el motor de estimacion. Si tiene 100 casos con fotos + numero de grafts reales, podemos calibrar la formula contra la realidad.</div>
+
+            <div class="question">
+                <strong>Tiene registrado el grado de alopecia de cada paciente? (Norwood 1-7 para hombres, Ludwig I-III para mujeres)</strong>
+            </div>
+
+            <div class="question">
+                <strong>Tiene datos de seguimiento? (fotos a los 6, 12, 18 meses post-operatorio?)</strong>
+            </div>
+            <div class="why-box">Los datos de seguimiento son el tesoro definitivo. Con ellos puedes mostrar resultados reales, no simulaciones. Pero son los mas raros — muy pocos medicos hacen seguimiento fotografico sistematico.</div>
+        </div>
+
+        <label><strong>Tus notas sobre las fotos:</strong></label>
+        <textarea class="notes-area" placeholder="Cantidad aprox:&#10;Formato:&#10;Tiene pre/post:&#10;Tiene tricoscopias:&#10;Tiene datos de grafts:&#10;Tiene seguimiento:"></textarea>
+    </div>
+
+    <!-- SECTION 3: LEGAL -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">3</div>
+            <h2>Tema legal y de datos <span class="tag tag-important">Importante</span></h2>
+        </div>
+
+        <div class="script-box">
+            "Doctor, para poder usar las fotos en el desarrollo del software, necesitamos cumplir con la Ley 1581 de proteccion de datos personales. Eso significa que necesitamos consentimiento del paciente o anonimizar completamente las fotos. Le explico como funciona..."
+        </div>
+
+        <div class="question-group">
+            <div class="question">
+                <strong>Los pacientes firman consentimiento para uso de fotos con fines academicos/de investigacion?</strong>
+            </div>
+            <div class="why-box">Si ya tienen consentimiento firmado que cubra "investigacion" o "mejora de servicios", estamos en buena posicion. Si no, necesitamos incorporar una clausula nueva.</div>
+
+            <div class="question">
+                <strong>Estaria dispuesto a que anonimicemos las fotos (sin nombre, sin cara cuando sea posible) para entrenar modelos de inteligencia artificial?</strong>
+            </div>
+
+            <div class="question">
+                <strong>Tiene algun comite de etica o proceso interno para investigacion?</strong>
+            </div>
+        </div>
+
+        <div class="warning-box">
+            En Colombia, la Ley 1581 de 2012 protege datos personales. Las fotos medicas son datos sensibles. Necesitas consentimiento EXPLICITO del paciente o anonimizacion completa (sin rostro reconocible). Ademas, la ley prohibe transferir datos personales a paises sin proteccion adecuada — los datos deben quedarse en servidores en Colombia o paises aprobados por la SIC.
+        </div>
+
+        <label><strong>Tus notas:</strong></label>
+        <textarea class="notes-area" placeholder="Tiene consentimientos:&#10;Proceso de anonimizacion:&#10;Comite de etica:"></textarea>
+    </div>
+
+    <!-- SECTION 4: WHAT WE OFFER -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">4</div>
+            <h2>Que le ofrecemos</h2>
+        </div>
+
+        <div class="script-box">
+            "Doctor, lo que le propongo es una alianza. Usted aporta su experiencia clinica, sus datos historicos y su practica real. Yo construyo el software. A cambio, usted recibe acceso gratuito a la plataforma de por vida y participa como co-creador. Si publicamos algo academico, va como co-autor."
+        </div>
+
+        <table class="offer-table">
+            <thead>
+                <tr>
+                    <th>El medico aporta</th>
+                    <th>El recibe a cambio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Fotos historicas anonimizadas</td>
+                    <td>Acceso gratuito al MVP y V1</td>
+                </tr>
+                <tr>
+                    <td>Validacion de formulas clinicas</td>
+                    <td>Co-autoria en publicaciones</td>
+                </tr>
+                <tr>
+                    <td>Feedback sobre UX en consulta real</td>
+                    <td>Herramienta que ahorra 20+ min/consulta</td>
+                </tr>
+                <tr>
+                    <td>5-10 consultas piloto con el sistema</td>
+                    <td>Diferenciacion vs. competencia (unico en Colombia)</td>
+                </tr>
+                <tr>
+                    <td>Protocolo de captura estandarizado</td>
+                    <td>Reportes PDF profesionales para pacientes</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="question-group">
+            <h3>Preguntas sobre su interes</h3>
+            <div class="question">
+                <strong>Que es lo que mas le frustra de la consulta inicial hoy?</strong>
+            </div>
+            <div class="why-box">Esta respuesta te dice que feature construir PRIMERO. Si dice "el paciente no entiende", prioriza la simulacion visual. Si dice "tardo mucho calculando", prioriza el motor de estimacion.</div>
+
+            <div class="question">
+                <strong>Si pudiera tener una herramienta magica para su consulta, que haria?</strong>
+            </div>
+
+            <div class="question">
+                <strong>Estaria dispuesto a probar una version temprana del software en 5-10 consultas reales y darme feedback detallado?</strong>
+            </div>
+        </div>
+
+        <label><strong>Tus notas:</strong></label>
+        <textarea class="notes-area" placeholder="Que le frustra mas:&#10;Que le gustaria tener:&#10;Acepta piloto:"></textarea>
+    </div>
+
+    <!-- SECTION 5: TECHNICAL -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">5</div>
+            <h2>Preguntas tecnicas sobre su practica</h2>
+        </div>
+
+        <div class="question-group">
+            <h3>Sobre estimacion de grafts</h3>
+            <div class="question">
+                <strong>Como estima hoy cuantos grafts necesita un paciente?</strong> (a ojo, con formulas, con experiencia?)
+            </div>
+            <div class="why-box">Esto define si el motor de estimacion es "reemplazo" o "validacion". La mayoria de cirujanos usan experiencia + regla aproximada. Si tiene una formula propia, la incorporamos.</div>
+
+            <div class="question">
+                <strong>Que factores considera para decidir? (area, densidad existente, tipo de pelo, edad, progresion esperada?)</strong>
+            </div>
+
+            <div class="question">
+                <strong>Con que frecuencia el resultado final difiere de lo que planeo inicialmente?</strong>
+            </div>
+        </div>
+
+        <div class="question-group">
+            <h3>Sobre la linea del pelo (hairline)</h3>
+            <div class="question">
+                <strong>Como disena la linea frontal? (dibuja en la piel, usa puntos de referencia, lo hace a ojo?)</strong>
+            </div>
+
+            <div class="question">
+                <strong>Le serviria una herramienta que le permita dibujar la hairline sobre la foto del paciente y calcular automaticamente cuantos grafts necesita por zona?</strong>
+            </div>
+        </div>
+
+        <div class="question-group">
+            <h3>Sobre la zona donante</h3>
+            <div class="question">
+                <strong>Como evalua la zona donante? Tiene un limite de extraccion que no sobrepasa?</strong>
+            </div>
+
+            <div class="question">
+                <strong>Ha tenido casos donde la zona donante no fue suficiente? Como lo manejo?</strong>
+            </div>
+        </div>
+
+        <label><strong>Tus notas:</strong></label>
+        <textarea class="notes-area" placeholder="Como estima grafts:&#10;Factores que considera:&#10;Diseno de hairline:&#10;Evaluacion donante:"></textarea>
+    </div>
+
+    <!-- SECTION 6: NEXT STEPS -->
+    <div class="section">
+        <div class="section-header">
+            <div class="section-number">6</div>
+            <h2>Cerrar la reunion — Proximos pasos</h2>
+        </div>
+
+        <div class="script-box">
+            "Doctor, con lo que me ha compartido hoy puedo empezar a construir algo concreto. Lo que le propongo es: en las proximas 2-3 semanas le muestro un prototipo funcional con sus propios datos. Usted me dice si tiene sentido o no. Sin compromiso largo — si no le sirve, no seguimos. Pero creo que va a ver valor inmediato."
+        </div>
+
+        <h3 style="margin: 1rem 0 0.5rem;">Checklist de cierre:</h3>
+        <ul class="checklist">
+            <li>Acordar acceso a las fotos (como las transfiere: USB, carpeta compartida, nube?)</li>
+            <li>Definir si firma un acuerdo simple de colaboracion o si prefiere algo verbal por ahora</li>
+            <li>Agendar segunda reunion en 2-3 semanas para mostrar avance</li>
+            <li>Intercambiar contacto directo (WhatsApp o similar para preguntas rapidas)</li>
+            <li>Confirmar si tiene dermatoscopio y cual modelo</li>
+            <li>Pedirle 3-5 fotos de ejemplo para empezar a trabajar de inmediato</li>
+        </ul>
+
+        <label><strong>Tus notas finales:</strong></label>
+        <textarea class="notes-area" placeholder="Acuerdos alcanzados:&#10;Proxima reunion:&#10;Como transferir fotos:&#10;Pendientes:"></textarea>
+    </div>
+
+    <!-- SUMMARY CARD -->
+    <div class="section" style="border: 2px solid var(--accent); background: #fffbeb;">
+        <h2 style="color: var(--primary); margin-bottom: 1rem;">Resumen: Los 5 datos que DEBES salir sabiendo</h2>
+        <ol style="padding-left: 1.25rem;">
+            <li style="padding: 0.5rem 0; font-weight: 600;">Cuantas fotos tiene y en que formato <span class="tag tag-critical">Critico</span></li>
+            <li style="padding: 0.5rem 0; font-weight: 600;">Si tiene pares pre/post operatorio <span class="tag tag-critical">Critico</span></li>
+            <li style="padding: 0.5rem 0; font-weight: 600;">Si tiene datos de grafts por paciente <span class="tag tag-critical">Critico</span></li>
+            <li style="padding: 0.5rem 0; font-weight: 600;">Si tiene o puede obtener consentimiento para usar las fotos <span class="tag tag-important">Importante</span></li>
+            <li style="padding: 0.5rem 0; font-weight: 600;">Si acepta ser piloto y probar el MVP en consultas reales <span class="tag tag-important">Importante</span></li>
+        </ol>
+    </div>
+
+    <button class="print-btn" onclick="window.print()">Imprimir / Guardar como PDF</button>
+
+    <div class="footer">
+        <p>HabemusHair — Hair Planning Copilot</p>
+        <p>Documento generado por Claude Opus 4.6 | Marzo 2026</p>
+    </div>
+
+</div>
+
+</body>
+</html>
