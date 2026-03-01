@@ -181,5 +181,125 @@ El MVP tiene exito si un cirujano lo usa en 5 consultas reales y dice: "el rango
 
 ---
 
+## 9. ADDENDUM — Contexto nuevo del fundador (1 marzo 2026)
+
+El fundador aporto tres datos que cambian materialmente la evaluacion:
+
+1. **Tiene un medico interesado con base amplia de fotografias y casos.**
+2. **Reddit (r/hairtransplant, r/tressless, etc.) como fuente complementaria de datos.**
+3. **Mercado objetivo: Colombia, donde esto no existe o es muy caro.**
+
+### Como cambia esto mi valoracion
+
+#### El riesgo #1 (dataset) pasa de critico a manejable
+
+Mi principal critica era: "sin datos clinicos reales, el roadmap es fantasia". Con un medico partner que ya tiene archivo fotografico historico, la situacion cambia radicalmente:
+
+- **Datos reales de consulta con contexto clinico.** No son fotos de internet — tienen historial del paciente, diagnostico, y potencialmente resultado postoperatorio. Eso es oro.
+- **El medico no es solo fuente de datos, es co-disenador.** Puede validar el protocolo de captura, las reglas de estimacion de grafts y las formulas de correccion. Esto resuelve mi preocupacion #2 (falta de asesor clinico).
+- **Reddit como dataset de bootstrap.** Los subreddits de trasplante capilar (r/hairtransplant tiene ~180k miembros, r/tressless ~350k+) estan llenos de fotos pre/post con datos autoreportados: numero de grafts, clinica, meses de progreso. No son datos clinicos validados, pero sirven para:
+  - Entrenar modelos de segmentacion anatomica (no necesitas ground truth clinico para segmentar un cuero cabelludo).
+  - Crear un dataset de entrenamiento visual para clasificacion de Norwood/Ludwig.
+  - Benchmark de expectativas de resultado visual.
+  - **No sirven para:** medicion de densidad real, calibracion de formulas de grafts (para eso necesitas los datos del medico).
+
+#### Colombia como mercado: mucho mejor de lo que parece
+
+**Lo que juega a favor:**
+
+| Factor | Detalle |
+|--------|---------|
+| **Mercado desatendido** | Las herramientas tipo TrichoLAB/HairMetrix estan disenadas para mercados de US/EU con precios de $500-2000/mes. En Colombia no hay alternativa local accesible. |
+| **Colombia es hub de turismo medico** | Bogota, Medellin y Cali reciben pacientes de todo LATAM y del Caribe para procedimientos esteticos. El trasplante capilar es uno de los mas buscados. |
+| **Precio del trasplante en Colombia** | Rango tipico: $2,000-5,000 USD por sesion (vs. $8,000-15,000 en USA, $1,500-3,000 en Turquia). Competitivo, con crecimiento fuerte. |
+| **Regulacion** | INVIMA regula dispositivos medicos pero el software de apoyo a consulta (no diagnostico autonomo) tiene un camino regulatorio mas flexible que en FDA/CE. Puedes lanzar como herramienta de apoyo sin clasificacion de dispositivo medico inicialmente. |
+| **Adopcion tech en clinicas colombianas** | Alta. Las clinicas esteticas colombianas ya usan plataformas digitales para marketing, agendamiento y seguimiento. Adoptar una herramienta de consulta no es un salto cultural. |
+| **Expansion natural** | Colombia -> Mexico -> LATAM hispanohablante. El producto en espanol cubre un mercado de 500M+ personas sin competencia real. |
+
+**Lo que hay que cuidar:**
+
+- **Pricing para mercado colombiano.** $500/mes es caro para una clinica mediana en Bogota. Piensa en $50-150 USD/mes como punto de entrada. El volumen compensa.
+- **Datos de pacientes colombianos.** Ley 1581 de proteccion de datos personales y Ley 23 de etica medica. Necesitas consentimiento informado explicito para usar fotos clinicas en entrenamiento de modelos. El medico partner debe tener esto claro desde el dia 0.
+- **Tipo de pelo.** El pelo latinoamericano tiene caracteristicas propias (generalmente grueso, oscuro, lacio a ondulado). Los modelos entrenados solo con pelo caucasico/asiatico pueden tener sesgo. **Ventaja: si entrenas con datos colombianos, tu modelo sera mejor para LATAM que cualquier competidor global.**
+
+### Puntuacion revisada
+
+| Dimension | Antes | Ahora | Razon del cambio |
+|-----------|-------|-------|------------------|
+| Idea de producto | 8/10 | **8.5/10** | Mercado LATAM desatendido confirma la oportunidad |
+| Calidad de planificacion | 8.5/10 | **8.5/10** | Sin cambio |
+| Viabilidad tecnica | 7/10 | **7.5/10** | Dataset real disponible facilita entrenamiento |
+| Viabilidad de negocio | 6.5/10 | **8/10** | Medico partner + mercado sin competencia local = salto grande |
+| Riesgo de ejecucion | 7/10 | **6/10** (riesgo menor) | Los dos riesgos principales estan mitigados |
+| **Nota global** | **7.5/10** | **8/10** | Este proyecto ahora tiene los ingredientes para ejecutarse |
+
+---
+
+## 10. Que sigue — Plan de accion inmediato
+
+### Semana 1-2: Fundamentos (antes de codigo)
+
+1. **Firmar acuerdo con el medico.**
+   - Acceso a fotos historicas anonimizadas.
+   - Consentimiento informado para uso en ML (Ley 1581).
+   - Rol: clinical advisor + primera clinica piloto.
+   - Contrapartida: uso gratuito del MVP + co-autoria si publican.
+
+2. **Auditar el archivo fotografico.**
+   - Cuantas fotos hay? En que formato? Tienen metadata clinica?
+   - Hay fotos pre Y post operatorio del mismo paciente?
+   - Hay tricoscopias o solo fotos macro?
+   - Cual es la calidad promedio? (iluminacion, angulos, resolucion)
+
+3. **Scraping estructurado de Reddit.**
+   - r/hairtransplant, r/tressless, r/HairTransplants
+   - Filtrar posts con fotos pre/post + datos (numero de grafts, meses, tecnica).
+   - Esto se puede automatizar con PRAW (Python Reddit API Wrapper).
+   - Meta: 1,000-2,000 pares de imagenes con metadata parcial.
+
+### Semana 3-4: Scaffold del proyecto
+
+4. **Montar el repo real.**
+   - Monorepo con la estructura que definio ChatGPT V2.
+   - FastAPI backend + Next.js frontend.
+   - Docker Compose para desarrollo local.
+   - CI/CD basico (GitHub Actions).
+
+5. **Pipeline de datos.**
+   - Script de ingesta y normalizacion de fotos.
+   - Validacion de calidad (blur, exposicion, resolucion minima).
+   - Almacenamiento en S3-compatible (MinIO local para desarrollo).
+   - Base de datos PostgreSQL con el schema propuesto + mis 3 tablas adicionales.
+
+### Semana 5-8: Motor 1 — Medicion
+
+6. **Segmentacion anatomica.**
+   - Anotar 50-100 imagenes con SAM-assisted labeling.
+   - Entrenar U-Net baseline para zonas: frontal, midscalp, crown, donor.
+   - Evaluar con IoU por zona.
+
+7. **Pipeline de tricoscopia (si el medico tiene dermatoscopio).**
+   - Medicion de densidad por cm2.
+   - Distribucion de FU (1, 2, 3, 4 pelos).
+   - Calibracion con marcador de escala.
+
+### Semana 9-12: Motor 2 — Estimacion + Reporte
+
+8. **Motor de grafts.**
+   - Implementar formula con factores de correccion.
+   - Validar con el medico contra 20-30 casos historicos.
+   - Output: rango conservador / recomendado / agresivo.
+
+9. **Reporte PDF.**
+   - Generacion automatica con areas, densidades, estimacion, disclaimers.
+   - Esto ya es un producto vendible como V1.
+
+### Despues de semana 12: Iterar
+
+10. **Planning canvas y simulacion solo si V1 esta validada clinicamente.**
+
+---
+
 *Revision realizada por Claude Opus 4.6 (Anthropic). Marzo 2026.*
 *Este documento representa una evaluacion independiente, no coordinada con las valoraciones de Gemini ni ChatGPT.*
+*Addendum incorporado tras contexto adicional del fundador.*
